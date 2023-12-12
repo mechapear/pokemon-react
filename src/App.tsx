@@ -22,6 +22,18 @@ type PokemonInfo = {
       name: string
     }
   }[]
+  stats: {
+    base_stat: number
+    stat: {
+      name:
+        | 'hp'
+        | 'attack'
+        | 'defense'
+        | 'special-attack'
+        | 'special-defense'
+        | 'speed'
+    }
+  }[]
 }
 
 export default function App() {
