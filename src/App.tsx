@@ -52,6 +52,18 @@ export default function App() {
     setPokemon('')
   }
 
+  async function handleRandomPokemon() {
+    // Pokemon ID range: 1 - 1017
+    // use Math.max() if random number is less then 1, we'll display 1.
+    const randomPokemonId = Math.max(
+      Math.floor(Math.random() * 1017),
+      1,
+    ).toString()
+
+    const pokemonInfo = await fetchPokemon(randomPokemonId)
+    setPokemonInfo(pokemonInfo)
+  }
+
   return (
     <>
       <h1 className="text-bold text-center text-xl">Find your Pokemon</h1>
@@ -72,6 +84,15 @@ export default function App() {
           Search
         </button>
       </form>
+
+      <div>
+        <button
+          className="rounded-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          onClick={handleRandomPokemon}
+        >
+          Random New Pokemon
+        </button>
+      </div>
 
       {pokemonInfo ? (
         <div>
