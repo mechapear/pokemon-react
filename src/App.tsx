@@ -81,7 +81,7 @@ export default function App() {
     <>
       <section className="my-10 flex min-h-screen flex-col items-center gap-3">
         <h1 className="my-2 text-center text-3xl font-bold text-blue-700">
-          Find Your Pokemon
+          Find Your Pokémon
         </h1>
         <form
           onSubmit={handleSearchPokemon}
@@ -112,33 +112,32 @@ export default function App() {
             Random Pokemon
           </button>
         </div>
+        {pokemonInfo ? (
+          <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
+            <span>No.{addLeadingZero(pokemonInfo.id)}</span>
+            <h2 className="text-2xl font-bold text-blue-700">
+              {capitalizeFirstLetter(pokemonInfo.name)}
+            </h2>
+            <img
+              className="h-60 w-60"
+              src={pokemonInfo.sprites?.other['official-artwork'].front_default}
+              alt={pokemonInfo.name}
+            />
+            <p>Weight: {pokemonInfo.weight} kg</p>
+            <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
+            <p>
+              Types:{' '}
+              {pokemonInfo.types
+                ? capitalizeFirstLetter(pokemonInfo.types[0].type.name)
+                : ''}
+            </p>
+            <p>
+              Abilities:{' '}
+              {capitalizeFirstLetter(pokemonInfo.abilities[0].ability.name)}
+            </p>
+          </section>
+        ) : null}
       </section>
-
-      {pokemonInfo ? (
-        <div className="flex flex-col items-center gap-2">
-          <span>No.{addLeadingZero(pokemonInfo.id)}</span>
-          <h2 className="text-2xl font-medium">
-            {capitalizeFirstLetter(pokemonInfo.name)}
-          </h2>
-          <img
-            className="h-64 w-64"
-            src={pokemonInfo.sprites?.other['official-artwork'].front_default}
-            alt={pokemonInfo.name}
-          />
-          <p>Weight: {pokemonInfo.weight} kg</p>
-          <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
-          <p>
-            Types:{' '}
-            {pokemonInfo.types
-              ? capitalizeFirstLetter(pokemonInfo.types[0].type.name)
-              : ''}
-          </p>
-          <p>
-            Abilities:{' '}
-            {capitalizeFirstLetter(pokemonInfo.abilities[0].ability.name)}
-          </p>
-        </div>
-      ) : null}
     </>
   )
 }
