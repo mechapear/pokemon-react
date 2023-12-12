@@ -1,4 +1,5 @@
 import { FormEvent, useState } from 'react'
+import { SearchIcon } from './icons.tsx'
 
 type PokemonInfo = {
   id: number
@@ -78,39 +79,49 @@ export default function App() {
 
   return (
     <>
-      <h1 className="text-bold text-center text-xl">Find your Pokemon</h1>
-      <form onSubmit={handleSearchPokemon}>
-        <input
-          type="text"
-          placeholder="Write your Pokemon name..."
-          className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-          value={pokemon}
-          onChange={(event) => {
-            setPokemon(event.target.value)
-          }}
-        />
-        <button
-          type="button"
-          className="rounded-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+      <section className="my-10 flex min-h-screen flex-col items-center gap-3">
+        <h1 className="my-2 text-center text-3xl font-bold text-blue-700">
+          Find Your Pokemon
+        </h1>
+        <form
+          onSubmit={handleSearchPokemon}
+          className="relative flex min-w-[300px]"
         >
-          Search
-        </button>
-      </form>
+          <input
+            type="text"
+            placeholder="Write your Pokemon name..."
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pe-14 pl-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500"
+            value={pokemon}
+            onChange={(event) => {
+              setPokemon(event.target.value)
+            }}
+          />
+          <button
+            type="button"
+            className="absolute end-0 top-0 rounded-r-lg border border-amber-400 bg-amber-400 p-2.5 text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <SearchIcon />
+          </button>
+        </form>
 
-      <div>
-        <button
-          className="rounded-lg border border-blue-700 bg-blue-700 p-2.5 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          onClick={handleRandomPokemon}
-        >
-          Random New Pokemon
-        </button>
-      </div>
+        <div className="my-2">
+          <button
+            className="rounded-lg border border-amber-400 bg-amber-400 p-2.5 text-sm font-medium text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            onClick={handleRandomPokemon}
+          >
+            Random Pokemon
+          </button>
+        </div>
+      </section>
 
       {pokemonInfo ? (
-        <div>
+        <div className="flex flex-col items-center gap-2">
           <span>No.{addLeadingZero(pokemonInfo.id)}</span>
-          <span>{capitalizeFirstLetter(pokemonInfo.name)}</span>
+          <h2 className="text-2xl font-medium">
+            {capitalizeFirstLetter(pokemonInfo.name)}
+          </h2>
           <img
+            className="h-64 w-64"
             src={pokemonInfo.sprites?.other['official-artwork'].front_default}
             alt={pokemonInfo.name}
           />
