@@ -42,6 +42,7 @@ export default function App() {
   const [pokemonInfo, setPokemonInfo] = useState<PokemonInfo | undefined>(
     undefined,
   )
+  const [isMoreDetails, setIsMoreDetails] = useState(false)
 
   async function fetchPokemon(endpoint: string) {
     try {
@@ -90,7 +91,7 @@ export default function App() {
           <input
             type="text"
             placeholder="Write your Pokemon name..."
-            className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pe-14 pl-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:ring-blue-500"
+            className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pe-14 pl-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
             value={pokemon}
             onChange={(event) => {
               setPokemon(event.target.value)
@@ -98,7 +99,7 @@ export default function App() {
           />
           <button
             type="button"
-            className="absolute end-0 top-0 rounded-r-lg border border-amber-400 bg-amber-400 p-2.5 text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="absolute end-0 top-0 rounded-r-lg border border-amber-400 bg-amber-400 p-2.5 text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300"
           >
             <SearchIcon />
           </button>
@@ -106,35 +107,123 @@ export default function App() {
 
         <div className="my-2">
           <button
-            className="rounded-lg border border-amber-400 bg-amber-400 p-2.5 text-sm font-medium text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="rounded-lg border border-amber-400 bg-amber-400 p-2.5 text-sm font-medium text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300"
             onClick={handleRandomPokemon}
           >
             Random Pokemon
           </button>
         </div>
         {pokemonInfo ? (
+          <>
+            <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
+              <span>No.{addLeadingZero(pokemonInfo.id)}</span>
+              <h2 className="text-2xl font-bold text-blue-700">
+                {capitalizeFirstLetter(pokemonInfo.name)}
+              </h2>
+              <img
+                className="h-60 w-60"
+                src={
+                  pokemonInfo.sprites?.other['official-artwork'].front_default
+                }
+                alt={pokemonInfo.name}
+              />
+              <p>Weight: {pokemonInfo.weight} kg</p>
+              <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
+              <p>
+                Types:{' '}
+                {pokemonInfo.types
+                  ? capitalizeFirstLetter(pokemonInfo.types[0].type.name)
+                  : ''}
+              </p>
+              <p>
+                Abilities:{' '}
+                {capitalizeFirstLetter(pokemonInfo.abilities[0].ability.name)}
+              </p>
+            </section>
+            <div className="my-2">
+              <button
+                className="rounded-lg border border-amber-400 bg-amber-400 p-2.5 text-sm font-medium text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={() => setIsMoreDetails((prevOption) => !prevOption)}
+              >
+                {isMoreDetails ? 'Hide Details' : 'Show Details'}
+              </button>
+            </div>
+          </>
+        ) : null}
+        {isMoreDetails ? (
           <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
-            <span>No.{addLeadingZero(pokemonInfo.id)}</span>
-            <h2 className="text-2xl font-bold text-blue-700">
-              {capitalizeFirstLetter(pokemonInfo.name)}
-            </h2>
-            <img
-              className="h-60 w-60"
-              src={pokemonInfo.sprites?.other['official-artwork'].front_default}
-              alt={pokemonInfo.name}
-            />
-            <p>Weight: {pokemonInfo.weight} kg</p>
-            <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
-            <p>
-              Types:{' '}
-              {pokemonInfo.types
-                ? capitalizeFirstLetter(pokemonInfo.types[0].type.name)
-                : ''}
-            </p>
-            <p>
-              Abilities:{' '}
-              {capitalizeFirstLetter(pokemonInfo.abilities[0].ability.name)}
-            </p>
+            <div className="relative overflow-x-auto rounded-lg shadow-md">
+              <table className="w-full text-left text-sm text-white">
+                <tbody>
+                  <tr className="border-b border-blue-300 bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[0].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[0].base_stat}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-blue-300 bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[1].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[1].base_stat}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-blue-300 bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[2].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[2].base_stat}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-blue-300 bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[3].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[3].base_stat}
+                    </td>
+                  </tr>
+                  <tr className="border-b border-blue-300 bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[4].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[4].base_stat}
+                    </td>
+                  </tr>
+                  <tr className="bg-blue-500">
+                    <th
+                      scope="col"
+                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
+                    >
+                      {pokemonInfo?.stats[5].stat.name}
+                    </th>
+                    <td className="px-7 py-2">
+                      {pokemonInfo?.stats[5].base_stat}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </section>
         ) : null}
       </section>
