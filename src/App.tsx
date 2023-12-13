@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import Button from './modules/Button.tsx'
-import { ErrorIcon } from './modules/icons.tsx'
+import ErrorCard from './modules/ErrorCard.tsx'
 import InfoCard from './modules/InfoCard.tsx'
 import SearchSection, { SearchSectionProps } from './modules/SearchSection.tsx'
 import StatsCard from './modules/StatsCard.tsx'
@@ -90,8 +90,6 @@ export default function App() {
     setPokemonInfo(pokemonInfo)
   }
 
-  console.log(`> status: `, status)
-
   return (
     <section className="my-10 flex min-h-screen flex-col items-center gap-3">
       <h1 className="my-2 text-center text-3xl font-bold text-blue-700">
@@ -135,21 +133,10 @@ export default function App() {
       ) : null}
 
       {/*error*/}
-      {status === 'error' ? (
-        <div className="m-6 grid w-[250px] place-items-center gap-3 rounded-lg border p-6 text-center text-red-500 shadow-sm">
-          <ErrorIcon />
-          <p className="text-sm text-blue-700">
-            Oops! Pokemon not found. Please try again
-          </p>
-          <div className="mt-2">
-            <Button onClick={() => setStatus('')} label={'Try again'} />
-          </div>
-        </div>
-      ) : null}
+      {status === 'error' ? <ErrorCard onClick={() => setStatus('')} /> : null}
     </section>
   )
 }
-
 function getRandomInt(min: number, max: number): number {
   // use Math.max() if random number is less then 'min', we return 'min'
   return Math.max(Math.floor(Math.random() * max), min)
