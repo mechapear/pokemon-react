@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from './modules/Button.tsx'
 import ErrorCard from './modules/ErrorCard.tsx'
 import InfoCard from './modules/InfoCard.tsx'
+import LoadingIcon from './modules/LoadingIcon.tsx'
 import SearchSection, { SearchSectionProps } from './modules/SearchSection.tsx'
 import StatsCard from './modules/StatsCard.tsx'
 
@@ -107,14 +108,7 @@ export default function App() {
       </div>
 
       {/*loading*/}
-      {status === 'loading' ? (
-        <div className="m-6">
-          <div
-            className="h-10 w-10 animate-spin rounded-full border-[6px] border-gray-300 border-t-blue-700"
-            aria-label="loading icon"
-          />
-        </div>
-      ) : null}
+      {status === 'loading' ? <LoadingIcon /> : null}
 
       {/*success*/}
       {status === 'success' && pokemonInfo ? (
