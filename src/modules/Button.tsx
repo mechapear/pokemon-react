@@ -1,5 +1,9 @@
+import { ComponentProps } from 'react'
+
 type ButtonProps = {
-  onClick: () => void
+  // NonNullable<> = null and undefined
+  // will be removed from the type
+  onClick: NonNullable<ComponentProps<'button'>['onClick']>
   label: string
 }
 
