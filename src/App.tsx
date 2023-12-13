@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react'
 import Button from './modules/Button.tsx'
 import { SearchIcon } from './modules/icons.tsx'
+import InfoCard from './modules/InfoCard.tsx'
 import StatsCard from './modules/StatsCard.tsx'
 
 export type PokemonInfo = {
@@ -108,31 +109,7 @@ export default function App() {
         </div>
         {pokemonInfo ? (
           <>
-            <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
-              <span>No.{addLeadingZero(pokemonInfo.id)}</span>
-              <h2 className="text-2xl font-bold text-blue-700">
-                {capitalizeFirstLetter(pokemonInfo.name)}
-              </h2>
-              <img
-                className="h-60 w-60"
-                src={
-                  pokemonInfo.sprites?.other['official-artwork'].front_default
-                }
-                alt={pokemonInfo.name}
-              />
-              <p>Weight: {pokemonInfo.weight} kg</p>
-              <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
-              <p>
-                Types:{' '}
-                {pokemonInfo.types
-                  ? capitalizeFirstLetter(pokemonInfo.types[0].type.name)
-                  : ''}
-              </p>
-              <p>
-                Abilities:{' '}
-                {capitalizeFirstLetter(pokemonInfo.abilities[0].ability.name)}
-              </p>
-            </section>
+            <InfoCard pokemonInfo={pokemonInfo} />
             <div className="my-2">
               <Button
                 onClick={() => setIsMoreDetails((prevOption) => !prevOption)}
@@ -152,16 +129,4 @@ export default function App() {
 function getRandomInt(min: number, max: number): number {
   // use Math.max() if random number is less then 'min', we return 'min'
   return Math.max(Math.floor(Math.random() * max), min)
-}
-
-function convertToMeters(height: number) {
-  return height / 100
-}
-
-function capitalizeFirstLetter(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1)
-}
-
-function addLeadingZero(num: number): string {
-  return num.toString().padStart(4, '0')
 }
