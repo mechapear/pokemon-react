@@ -1,7 +1,7 @@
-import { FormEvent, useState } from 'react'
+import { useState } from 'react'
 import Button from './modules/Button.tsx'
-import { SearchIcon } from './modules/icons.tsx'
 import InfoCard from './modules/InfoCard.tsx'
+import SearchSection, { SearchSectionProps } from './modules/SearchSection.tsx'
 import StatsCard from './modules/StatsCard.tsx'
 
 export type PokemonInfo = {
@@ -58,7 +58,9 @@ export default function App() {
   )
   const [isMoreDetails, setIsMoreDetails] = useState(false)
 
-  async function handleSearchPokemon(event: FormEvent<HTMLFormElement>) {
+  const handleSearchPokemon: SearchSectionProps['onFormSubmit'] = async (
+    event,
+  ) => {
     // prevent page refreshing
     event.preventDefault()
 
@@ -83,27 +85,13 @@ export default function App() {
         <h1 className="my-2 text-center text-3xl font-bold text-blue-700">
           Find Your Pokémon
         </h1>
-        <form
-          onSubmit={handleSearchPokemon}
-          className="relative flex min-w-[300px]"
-        >
-          <input
-            type="text"
-            placeholder="Write your Pokemon name..."
-            className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pe-14 pl-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
-            value={pokemon}
-            onChange={(event) => {
-              setPokemon(event.target.value)
-            }}
-          />
-          <button
-            type="button"
-            className="absolute end-0 top-0 rounded-r-lg border border-amber-400 bg-amber-400 p-2.5 text-blue-700 hover:bg-amber-800 hover:text-white focus:outline-none focus:ring-2 focus:ring-amber-300"
-          >
-            <SearchIcon />
-          </button>
-        </form>
-
+        <SearchSection
+          onFormSubmit={handleSearchPokemon}
+          onInputChange={(event) => {
+            setPokemon(event.target.value)
+          }}
+          value={pokemon}
+        />
         <div className="my-2">
           <Button onClick={handleRandomPokemon} label="Random Pokemon" />
         </div>
