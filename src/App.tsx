@@ -39,23 +39,23 @@ export type PokemonInfo = {
   }[]
 }
 
+async function fetchPokemon(endpoint: string) {
+  try {
+    const data = await fetch(
+      `https://pokeapi.co/api/v2/pokemon/${endpoint.toLowerCase()}/`,
+    ).then((response) => response.json() as Promise<PokemonInfo>)
+    return data
+  } catch (error) {
+    console.log(`Pokemon not found: `, error)
+  }
+}
+
 export default function App() {
   const [pokemon, setPokemon] = useState('')
   const [pokemonInfo, setPokemonInfo] = useState<PokemonInfo | undefined>(
     undefined,
   )
   const [isMoreDetails, setIsMoreDetails] = useState(false)
-
-  async function fetchPokemon(endpoint: string) {
-    try {
-      const data = await fetch(
-        `https://pokeapi.co/api/v2/pokemon/${endpoint.toLowerCase()}/`,
-      ).then((response) => response.json() as Promise<PokemonInfo>)
-      return data
-    } catch (error) {
-      console.log(`Pokemon not found: `, error)
-    }
-  }
 
   async function handleSearchPokemon(event: FormEvent<HTMLFormElement>) {
     // prevent page refreshing
@@ -70,11 +70,7 @@ export default function App() {
 
   async function handleRandomPokemon() {
     // Pokemon ID range: 1 - 1017
-    // use Math.max() if random number is less then 1, we'll display 1.
-    const randomPokemonId = Math.max(
-      Math.floor(Math.random() * 1017),
-      1,
-    ).toString()
+    const randomPokemonId = getRandomInt(1, 1017).toString()
 
     const pokemonInfo = await fetchPokemon(randomPokemonId)
     setPokemonInfo(pokemonInfo)
@@ -151,6 +147,11 @@ export default function App() {
       </section>
     </>
   )
+}
+
+function getRandomInt(min: number, max: number): number {
+  // use Math.max() if random number is less then 'min', we return 'min'
+  return Math.max(Math.floor(Math.random() * max), min)
 }
 
 function convertToMeters(height: number) {
