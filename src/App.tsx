@@ -1,8 +1,9 @@
 import { FormEvent, useState } from 'react'
 import Button from './modules/Button.tsx'
 import { SearchIcon } from './modules/icons.tsx'
+import StatsCard from './modules/StatsCard.tsx'
 
-type PokemonInfo = {
+export type PokemonInfo = {
   id: number
   name: string
   sprites?: {
@@ -49,7 +50,7 @@ export default function App() {
     try {
       const data = await fetch(
         `https://pokeapi.co/api/v2/pokemon/${endpoint.toLowerCase()}/`,
-      ).then((response) => response.json())
+      ).then((response) => response.json() as Promise<PokemonInfo>)
       return data
     } catch (error) {
       console.log(`Pokemon not found: `, error)
@@ -144,81 +145,8 @@ export default function App() {
             </div>
           </>
         ) : null}
-        {isMoreDetails ? (
-          <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
-            <div className="relative overflow-x-auto rounded-lg shadow-md">
-              <table className="w-full text-left text-sm text-white">
-                <tbody>
-                  <tr className="border-b border-blue-300 bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[0].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[0].base_stat}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-blue-300 bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[1].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[1].base_stat}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-blue-300 bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[2].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[2].base_stat}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-blue-300 bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[3].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[3].base_stat}
-                    </td>
-                  </tr>
-                  <tr className="border-b border-blue-300 bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[4].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[4].base_stat}
-                    </td>
-                  </tr>
-                  <tr className="bg-blue-500">
-                    <th
-                      scope="col"
-                      className="bg-blue-700 px-7 py-2 text-xs uppercase text-white"
-                    >
-                      {pokemonInfo?.stats[5].stat.name}
-                    </th>
-                    <td className="px-7 py-2">
-                      {pokemonInfo?.stats[5].base_stat}
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </section>
+        {pokemonInfo && isMoreDetails ? (
+          <StatsCard pokemonInfo={pokemonInfo} />
         ) : null}
       </section>
     </>
