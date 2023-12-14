@@ -18,7 +18,7 @@ export default function SearchSection({
     <form onSubmit={onFormSubmit} className="relative flex min-w-[300px]">
       <input
         type="text"
-        placeholder="Write Pokemon name or number..."
+        placeholder="Write Pokémon name or number..."
         className="w-full rounded-lg border border-gray-300 bg-gray-50 py-2.5 pe-14 pl-2.5 text-sm text-gray-900 focus:outline-none focus:ring-2 focus:ring-amber-400"
         value={value}
         onChange={onInputChange}

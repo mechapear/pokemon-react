@@ -104,7 +104,7 @@ export default function App() {
         value={pokemon}
       />
       <div className="my-2">
-        <Button onClick={handleRandomPokemon} label="Random Pokemon" />
+        <Button onClick={handleRandomPokemon} label="Random Pokémon" />
       </div>
 
       {/*loading*/}
