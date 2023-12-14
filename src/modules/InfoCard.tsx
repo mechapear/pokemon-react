@@ -12,6 +12,10 @@ export default function InfoCard({ pokemonInfo }: InfoCardProps) {
         {capitalize(pokemonInfo.name)}
       </h2>
       <img
+        // prevent seeing the previous image until the next one loads
+        // add key to the <img>
+        // When that key changes, React will re-create the <img> DOM
+        key={pokemonInfo.id}
         className="h-60 w-60"
         src={pokemonInfo.sprites?.other['official-artwork'].front_default}
         alt={pokemonInfo.name}
