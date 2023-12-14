@@ -5,8 +5,18 @@ type InfoCardProps = {
 }
 
 export default function InfoCard({ pokemonInfo }: InfoCardProps) {
+  const typeItem = pokemonInfo.types.map((type, index) => {
+    const name = capitalize(type.type.name)
+    return <span>{index > 0 ? `, ${name}` : name}</span>
+  })
+
+  const abilityItem = pokemonInfo.abilities.map((ability, index) => {
+    const name = capitalize(ability.ability.name)
+    return <span>{index > 0 ? `, ${name}` : name}</span>
+  })
+
   return (
-    <section className="flex flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
+    <section className="flex max-w-[308px] flex-col items-center gap-2 rounded-lg border-2 border-amber-400 p-8 shadow-md">
       <span>No.{addLeadingZero(pokemonInfo.id)}</span>
       <h2 className="text-2xl font-bold text-blue-700">
         {capitalize(pokemonInfo.name)}
@@ -20,13 +30,10 @@ export default function InfoCard({ pokemonInfo }: InfoCardProps) {
         src={pokemonInfo.sprites?.other['official-artwork'].front_default}
         alt={pokemonInfo.name}
       />
-      <p>Weight: {pokemonInfo.weight} kg</p>
+      <p>Weight: {convertToKilogram(pokemonInfo.weight)} kg</p>
       <p>Height: {convertToMeters(pokemonInfo.height)} m</p>
-      <p>
-        Types:{' '}
-        {pokemonInfo.types ? capitalize(pokemonInfo.types[0].type.name) : ''}
-      </p>
-      <p>Abilities: {capitalize(pokemonInfo.abilities[0].ability.name)}</p>
+      <p>Types: {typeItem}</p>
+      <p className="text-center">Abilities: {abilityItem}</p>
     </section>
   )
 }
@@ -39,6 +46,10 @@ function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
 
+function convertToKilogram(weight: number) {
+  return weight / 10
+}
+
 function convertToMeters(height: number) {
-  return height / 100
+  return height / 10
 }

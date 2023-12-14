@@ -18,7 +18,7 @@ export type PokemonInfo = {
   }
   weight: number
   height: number
-  types?: {
+  types: {
     type: {
       name: string
     }
