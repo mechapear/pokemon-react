@@ -120,10 +120,10 @@ export default function App() {
               label={isMoreDetails ? 'Hide Details' : 'Show Details'}
             />
           </div>
+          {pokemonInfo && isMoreDetails && (
+            <StatsCard pokemonInfo={pokemonInfo} />
+          )}
         </>
-      ) : null}
-      {pokemonInfo && isMoreDetails ? (
-        <StatsCard pokemonInfo={pokemonInfo} />
       ) : null}
 
       {/*error*/}
